@@ -1,0 +1,56 @@
+{% extends 'article/base.html' %}
+
+{% block content %}
+
+    <div class="jumbotron jumbotron-fluid">
+        <nav aria-label="breadcrumb" class="col-md-10">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{article.title|truncatewords:3}}</li>
+            </ol>
+        </nav>
+        <div class="container">
+            <h1 class="display-4">{{ article.title }}</h1>
+            <p class="lead">{{ article.text }}</p>
+            <p class="card-text"><small class="text-muted">{{article.author}} {{article.data}}</small></p>
+        </div>
+    </div>
+
+
+
+
+    <div class="alert alert-primary" role="alert">
+        <p class="font-weight-bold"><h3 class="text-center">Комментарии</h3>
+    </div>
+
+    {% for comment in comments %}
+        <div class="card border-dark mb-3" style="max-width: 80rem;">
+            <div class="card-header">{{ comment.author }}</div>
+            <div class="card-body text-dark">
+                <p class="card-text">{{ comment.text }}</p>
+                <small class="text-muted">{{comment.date}}</small>
+
+            </div>
+        </div>
+    {% endfor %}
+
+
+
+    <h4>--------------------------VOTE-----------------------------</h4>
+
+
+    {% for choice in choices %}
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+            <label class="form-check-label" for="exampleRadios1">
+                {{ choice.text }}
+            </label>
+        </div>
+    {% endfor %}
+    <button type="button" class="btn btn-success">Vote</button>
+
+
+
+
+{% endblock %}
