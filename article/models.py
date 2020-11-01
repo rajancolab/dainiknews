@@ -3,21 +3,21 @@ from time import time
 from django.db import models
 from django.shortcuts import reverse
 from django.utils.text import slugify
-
+from django.contrib.auth.models import User
 
 def gen_slug(s):
     new_slug = slugify(s, allow_unicode=True)
     return new_slug + '-' + str(int(time()))
 
-
-class User(models.Model):
-
-    username = models.CharField(max_length=255)
-    name = models.CharField(max_length=255)
-    surname = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.username
+#
+# class User(models.Model):
+#
+#     username = models.CharField(max_length=255)
+#     name = models.CharField(max_length=255)
+#     surname = models.CharField(max_length=255)
+#
+#     def __str__(self):
+#         return self.username
 
 
 class Article(models.Model):
@@ -56,7 +56,7 @@ class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     text = models.TextField(max_length=1000)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateTimeField()
+    date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return '{}: {}'.format(self.author, self.text[:25] + '...')
