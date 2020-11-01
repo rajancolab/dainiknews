@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <form class="" action="{% url 'accounts:register_url' %}" method="post">
+        {% csrf_token %}
+        <label>
+            <input type="text" name="first_name" placeholder="First name">
+        </label><br>
+        <label>
+            <input type="text" name="second_name" placeholder="Second name">
+        </label><br>
+        <label>
+            <input type="text" name="username" placeholder="Username">
+        </label><br>
+        <label>
+            <input type="email" name="email" placeholder="Email">
+        </label><br>
+        <label>
+            <input type="password" name="password1" placeholder="Password">
+        </label><br>
+        <label>
+            <input type="password" name="password2" placeholder="Confirm password">
+        </label><br>
+        <button type="submit" class="btn btn-primary" name="button">Зарегистрироваться</button>
+    </form>
+    <div>
+        <h3>
+            {% for message in messages %}
+                <h3>{{ message }}</h3>
+            {% endfor %}
+
+
+        </h3>
+    </div>
+
+
+
+{% endblock %}

@@ -1,20 +1,20 @@
-{% extends 'article/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
     <table class="table">
         <thead>
         <tr class="table-secondary">
-            <th scope="col">Description</th>
-            <th scope="col">Author</th>
-            <th scope="col">Votes</th>
-            <th scope="col">Comments</th>
-            <th scope="col">Date</th>
+            <th scope="col">Описание</th>
+            <th scope="col">Автор</th>
+            <th scope="col">Голоса</th>
+            <th scope="col">Комментарии</th>
+            <th scope="col">Дата</th>
         </tr>
         </thead>
         <tbody>
         {% for article, com_num, vote_num in list_of_data %}
             <tr>
-                <td><a href="{{ article.get_absolute_url }}">{{article.title}}</a></td>
+                <td><a href="{{ article.get_absolute_url }}">{{article.title|truncatechars:60}}</a></td>
                 <td>{{article.author}}</td>
                 <td><span class="badge badge-primary badge-pill">{{vote_num}}</span></td>
                 <td><span class="badge badge-primary badge-pill">{{com_num}}</span></td>
