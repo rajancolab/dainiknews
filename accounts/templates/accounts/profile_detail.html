@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="row py-3 px-10">
+        <div class="col-md-11 mx-auto">
+            <!-- Profile widget -->
+            <div class="px-5 pt-0 pb-0 cover">
+                <div class="media align-items-end profile-head">
+                    <div class="profile mr-3">
+                        <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80" alt="..." width="250" class="rounded mb-2 img-thumbnail">
+                        <a href="{% url 'accounts:profile_edit' %}" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
+                        <a href="{% url 'create_article' %}" class="btn btn-outline-dark btn-sm btn-block">Create article</a>
+                    </div>
+                    <div class="media-body mb-5 text-black">
+                        <h3 class="mt-0 mb-0">{{user.first_name}} {{ user.last_name }}</h3>
+                        <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>{{user.email}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="py-4 ml-5 mt-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h5 class="mb-0">Recent articles</h5><a href="{% url 'accounts:profile_all_articles' %}" class="btn btn-link text-muted">Show all</a>
+                </div>
+
+
+                <table class="table">
+                    <thead>
+                    <tr class="table-secondary">
+                        <th scope="col">Описание</th>
+                        <th scope="col">Автор</th>
+                        <th scope="col">Голоса</th>
+                        <th scope="col">Комментарии</th>
+                        <th scope="col">Дата</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for article, com_num, vote_num in list_of_data %}
+                        <tr>
+                            <td><a href="{{ article.get_absolute_url }}" class="text-black">{{article.title|truncatechars:60}}</a></td>
+                            <td>{{article.author}}</td>
+                            <td><span class="badge badge-primary badge-pill">{{vote_num}}</span></td>
+                            <td><span class="badge badge-primary badge-pill">{{com_num}}</span></td>
+                            <td>{{ article.data }}</td>
+                        </tr>
+
+
+                    {% endfor %}
+
+
+
+                    </tbody>
+                </table>
+
+            </div>
+            {#        </div>#}
+        </div>
+    </div>
+
+
+{% endblock %}

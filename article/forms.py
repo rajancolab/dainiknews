@@ -9,7 +9,7 @@ class CreateArticleForm(forms.Form):
     text = forms.CharField(
         label='Text',
         max_length=5000,
-        widget=forms.Textarea(attrs={'class': 'input form-control', 'placeholder':"Write article's content here"}))
+        widget=forms.Textarea(attrs={'class': 'input form-control', 'placeholder':"Write article's content here", 'id':'article_text_id', 'name': 'text1'}))
 
     def clean(self):
         cleaned_data = super().clean()
