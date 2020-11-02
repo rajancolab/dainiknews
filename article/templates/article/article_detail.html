@@ -11,7 +11,9 @@
         </nav>
         <div class="container">
             <h1 class="display-4">{{ article.title }}</h1>
-            <p class="lead">{{ article.text }}</p>
+            <p class="lead" style="white-space:pre-line">
+                {{ article.text }}
+            </p>
             <p class="card-text"><small class="text-muted">{{article.author}} {{article.data}}</small></p>
         </div>
     </div>

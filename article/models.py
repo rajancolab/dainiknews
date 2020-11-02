@@ -22,10 +22,11 @@ def gen_slug(s):
 
 class Article(models.Model):
     title = models.CharField(max_length=255, verbose_name='Название')
-    text = models.TextField(max_length=1000, verbose_name='Содержание')
+    text = models.TextField(max_length=5000, verbose_name='Содержание')
     author = models.ForeignKey(User, max_length=255, verbose_name='Автор', on_delete=models.CASCADE)
-    data = models.DateTimeField()
+    data = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=255, blank=True)
+
 
     def save(self, *args, **kwargs):
         if not self.id:

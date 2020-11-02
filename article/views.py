@@ -1,6 +1,8 @@
 from django.http import Http404
 from django.shortcuts import render, redirect
+
 from .models import Article, Comment
+from .forms import CreateArticleForm
 
 
 def index(request):
@@ -22,15 +24,32 @@ def index(request):
 
 
 def article_detail(request, slug):
+    try:
+        article = Article.objects.get(slug=slug)
+    except:
+        raise Http404("Article not found!")
+    comments = article.comment_set.all()
+    choices = article.choice_set.all()
 
-    if not request.method == 'post':
-        try:
-            article = Article.objects.get(slug=slug)
-            comments = article.comment_set.all()
-            choices = article.choice_set.all()
-        except:
-            raise Http404("Article not found!")
-        return render(request, 'article/article_detail.html', {'article': article, 'comments': comments, 'choices': choices})
+    return render(request, 'article/article_detail.html', {'article': article, 'comments': comments, 'choices': choices})
+
+
+def create_article(request):
+
+    if request.method == "POST":
+        form = CreateArticleForm(request.POST)
+
+        if form.is_valid():
+            article = Article.objects.create(title=request.POST['title'], text=request.POST['text'], author=request.user)
+            article.save()
+            return redirect('article_detail_url', article.slug)
+
+    else:
+        form  = CreateArticleForm()
+
+    context = {'form': form}
+
+    return render(request, 'article/article_create.html', context)
 
 
 def vote(request, slug):
@@ -43,6 +62,8 @@ def vote(request, slug):
         return redirect('article_detail_url', slug)
     except:
         raise Http404("Article not found!")
+
+
 
 def comment(request, slug):
     try:

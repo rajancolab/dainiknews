@@ -6,6 +6,5 @@ from article.models import Article, Comment, Choice
 
 
 admin.site.register(Article)
-# admin.site.register(User)
 admin.site.register(Comment)
 admin.site.register(Choice)
