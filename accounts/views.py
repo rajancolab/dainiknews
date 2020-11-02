@@ -54,7 +54,7 @@ def logout(request):
 
 def profile_detail(request):
     user = request.user
-    articles = Article.objects.filter(author=user).order_by('-data')[:3]
+    articles = Article.objects.filter(author_id=user.id).order_by('-data')[:3]
 
     list_of_data = []
     for article in articles:
@@ -101,12 +101,13 @@ def profile_edit(request):
             user.username = form.cleaned_data.get('username')
             user.last_name = form.cleaned_data.get('last_name')
             user.email = form.cleaned_data.get('email')
-            print(user.password)
-            user.set_password = form.cleaned_data.get('password1')
-            print(user.password)
-
-
+            user.set_password(form.cleaned_data.get('password1'))
             user.save()
+
+            edited_user = auth.authenticate(username=form.cleaned_data.get('username'),
+                                     password=form.cleaned_data.get('password'))
+            auth.login(request, edited_user)
+
             return redirect('accounts:profile_detail')
     else:
         form = EditForm()
