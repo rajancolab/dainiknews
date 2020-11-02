@@ -3,59 +3,48 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 
 from article.models import Article
-
+from accounts.forms import *
 
 def register(request):
-    if request.method == 'POST':
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        username = request.POST['username']
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
-        email = request.POST['email']
 
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
 
-        if password1 == password2:
-            if User.objects.filter(username=username).exists():
-                messages.info(request, 'Username Taken')
-                return redirect('accounts:register_url')
-            elif User.objects.filter(email=email).exists():
-                messages.info(request, 'Email Taken')
-                return redirect('accounts:register_url')
-            else:
-                user = User.objects.create_user(username=username,
-                                                password=password1,
-                                                email=email,
-                                                first_name=first_name,
-                                                last_name=last_name
-                                                )
-                user.save()
-                return redirect('accounts:login_url')
-        else:
-            messages.info(request, 'Confirmation password failed')
-            return redirect('accounts:register_url')
-
-
+        if form.is_valid():
+            user = User.objects.create_user(username=form.cleaned_data.get('username'),
+                                            password=form.cleaned_data.get('password1'),
+                                            email=form.cleaned_data.get('email'),
+                                            first_name=form.cleaned_data.get('first_name'),
+                                            last_name=form.cleaned_data.get('last_name')
+                                            )
+            user.save()
+            return redirect('accounts:login_url')
     else:
-        return render(request, 'accounts/register.html')
+        form = RegisterForm()
+
+    context = {'form': form}
+
+    return render(request, 'accounts/profile_register.html', context)
+
 
 
 def login(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        form = LoginForm(request.POST)
 
-        user = auth.authenticate(username=username, password=password)
-
-        if user is not None:
+        if form.is_valid():
+            user = auth.authenticate(username=form.cleaned_data.get('username'),
+                                     password=form.cleaned_data.get('password'))
             auth.login(request, user)
-            return redirect('/')
-        else:
-            messages.info(request, 'Данные введены неверно ')
-            return redirect('accounts:login_url')
-
+            return redirect('accounts:profile_detail')
     else:
-        return render(request, 'accounts/login.html')
+        form = LoginForm()
+
+    context = {'form': form}
+
+    return render(request, 'accounts/profile_login.html', context)
+
+
 
 
 def logout(request):
@@ -103,35 +92,25 @@ def profile_all_articles(request):
     return render(request, 'accounts/profile_all_articles.html', context=context)
 
 def profile_edit(request):
-    if request.method == 'POST':
-        first_name = request.POST['first_name']
-        last_name = request.POST['second_name']
-        username = request.POST['username']
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
-        email = request.POST['email']
+    if request.method == "POST":
+        form = EditForm(request.POST)
+
+        if form.is_valid():
+            user = request.user
+            user.first_name = form.cleaned_data.get('first_name')
+            user.username = form.cleaned_data.get('username')
+            user.last_name = form.cleaned_data.get('last_name')
+            user.email = form.cleaned_data.get('email')
+            print(user.password)
+            user.set_password = form.cleaned_data.get('password1')
+            print(user.password)
 
 
-        if password1 == password2:
-            if User.objects.filter(username=username).exists():
-                messages.info(request, 'Username Taken')
-                return redirect('accounts:register_url')
-            elif User.objects.filter(email=email).exists():
-                messages.info(request, 'Email Taken')
-                return redirect('accounts:register_url')
-            else:
-                user = User.objects.create_user(username=username,
-                                                password=password1,
-                                                email=email,
-                                                first_name=first_name,
-                                                last_name=last_name
-                                                )
-                user.save()
-                return redirect('accounts:login_url')
-        else:
-            messages.info(request, 'Confirmation password failed')
-            return redirect('accounts:register_url')
-
-
+            user.save()
+            return redirect('accounts:profile_detail')
     else:
-        return render(request, 'accounts/profile_edit.html')
+        form = EditForm()
+
+    context = {'form': form}
+
+    return render(request, 'accounts/profile_edit.html', context)
