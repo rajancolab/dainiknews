@@ -13,6 +13,7 @@
             <th scope="col">Голоса</th>
             <th scope="col">Комментарии</th>
             <th scope="col">Дата</th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
@@ -22,6 +23,7 @@
                 <td><span class="badge badge-primary badge-pill">{{vote_num}}</span></td>
                 <td><span class="badge badge-primary badge-pill">{{com_num}}</span></td>
                 <td>{{ article.data }}</td>
+                <td><a class="btn btn-primary" href="{% url 'article_edit_url' article.slug %}" role="button">Edit</a></td>
             </tr>
 
 

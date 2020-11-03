@@ -1,8 +1,10 @@
 from django.http import Http404
 from django.shortcuts import render, redirect
+from django.core.exceptions import PermissionDenied
+from django.utils.datetime_safe import datetime
 
 from .models import Article, Comment
-from .forms import CreateArticleForm
+from .forms import *
 
 
 def index(request):
@@ -50,6 +52,35 @@ def create_article(request):
     context = {'form': form}
 
     return render(request, 'article/article_create.html', context)
+
+
+def edit_article(request, slug):
+
+    try:
+        article = Article.objects.get(slug=slug)
+    except:
+        raise Http404("Article not found!")
+
+    if article.author != request.user:
+        raise PermissionDenied
+
+    if request.method == "POST":
+        form = EditArticleForm(request.POST)
+
+        if form.is_valid():
+            article.title = form.cleaned_data['title']
+            article.text = form.cleaned_data['text']
+            article.data = datetime.now()
+            article.save()
+            return redirect('article_detail_url', article.slug)
+
+    else:
+        form  = EditArticleForm({'title': article.title, 'text': article.text})
+
+    context = {'form': form,
+               'slug': slug}
+
+    return render(request, 'article/article_edit.html', context)
 
 
 def vote(request, slug):
