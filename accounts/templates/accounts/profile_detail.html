@@ -8,7 +8,7 @@
             <div class="px-5 pt-0 pb-0 cover">
                 <div class="media align-items-end profile-head">
                     <div class="profile mr-3">
-                        <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80" alt="..." width="250" class="rounded mb-2 img-thumbnail">
+                        <img src="/media/{{ user_with_photo.profile_photo }}" alt="..." width="250" class="rounded mb-2 img-thumbnail">
                         <a href="{% url 'accounts:profile_edit' %}" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
                         <a href="{% url 'create_article' %}" class="btn btn-outline-dark btn-sm btn-block">Create article</a>
                     </div>

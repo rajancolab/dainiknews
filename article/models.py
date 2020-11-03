@@ -11,11 +11,19 @@ def gen_slug(s):
     return new_slug + '-' + str(int(time()))
 
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_photo = models.ImageField(upload_to='profile_photo/')
+
+    def __str__(self):
+        return self.user.username
+
+
 class Article(models.Model):
     title = models.CharField(max_length=255, verbose_name='Название')
     text = models.TextField(max_length=5000, verbose_name='Содержание')
     author = models.ForeignKey(User, max_length=255, verbose_name='Автор', on_delete=models.CASCADE)
-    data = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=255, blank=True)
     likes = models.IntegerField(default=0)
     dislikes = models.IntegerField(default=0)

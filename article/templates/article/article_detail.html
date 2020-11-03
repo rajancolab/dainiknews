@@ -1,73 +1,159 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
     <div class="jumbotron jumbotron-fluid">
-        <nav aria-label="breadcrumb" class="col-md-10">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{article.title|truncatewords:3}}</li>
-            </ol>
-        </nav>
+
         <div class="container">
+            <nav aria-label="breadcrumb" class="">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{article.title|truncatewords:3}}</li>
+                </ol>
+            </nav>
             <h1 class="display-4">{{ article.title }}</h1>
             <p class="lead" style="white-space:pre-line">
                 {{ article.text|linebreaks }}
             </p>
-            <p class="card-text"><small class="text-muted">{{article.author}} {{article.data}}</small></p>
-            <form action="{% url 'article_like_url' article.slug %}" method="post">
-                {% csrf_token %}
-                {{ article.likes }}
-                <input class="btn btn-outline-dark btn-sm" name="like" type="submit" value="Like">
-                <input class="btn btn-outline-secondary btn-sm" name="dislike" type="submit" value="Dislike">
-                {{ article.dislikes }}
-            </form>
+            <p class="card-text mb-3">
+                <small class="text-muted">Author: </small>
+                <small class="text">{{article.author}}</small>
+                <small class="text-muted"> | Publication date:</small>
+                <small class="text-">{{article.date }}</small>
+            </p>
+            <div class="mt-4">
+                <form action="{% url 'article_like_url' article.slug %}" method="post">
+                    {% csrf_token %}
+                    {{ article.likes }}
+                    <input class="btn btn-outline-dark btn-sm" name="like" type="submit" value="Like">
+                    <input class="btn btn-outline-secondary btn-sm" name="dislike" type="submit" value="Dislike">
+                    {{ article.dislikes }}
+                </form>
+            </div>
 
 
-            <div class=" mt-2 progress bg-light progress-bar-striped progress-bar-animated">
-                <div class="progress-bar bg-dark progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ likes_percent }}%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-                <div class="progress-bar bg-secondary progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ dislikes_percent }}%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class=" mt-4 progress bg-light progress-bar-striped ">
+                <div class="progress-bar bg-dark " role="progressbar" style="width: {{ likes_percent }}%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-secondary " role="progressbar" style="width: {{ dislikes_percent }}%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
         </div>
 
 
     </div>
 
+    <div class="jumbotron jumbotron-fluid bg-light">
+        <div class="container">
+            <div class="comments">
+                <h3 class="title-comments">Comments ({{ comments.count }})</h3>
 
-    <div class="alert alert-primary" role="alert">
-        <p class="font-weight-bold"><h3 class="text-center">Комментарии</h3>
-    </div>
-
-    <form method="post" action="{% url 'comment_url' article.slug%}">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="formGroupExampleInput">Добавьте комментарий</label>
-            <input type="text" class="form-control" id="formGroupExampleInput" name="commentText" placeholder="Ваш комментарий">
-        </div>
-        <button type="submit" class="btn btn-success ml-5">Готово</button>
-    </form>
-
-    {% for comment in comments %}
-        <div class="card border-dark mb-3" style="max-width: 80rem;">
-            <div class="card-header">{{ comment.author }}</div>
-            <div class="card-body text-dark">
-                <p class="card-text">{{ comment.text }}</p>
-                <small class="text-muted">{{comment.date}}</small>
-
+                <ul class="media-list">
+                    <!-- Комментарий (уровень 1) -->
+                    <li class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object img-rounded" src="{% static '' %}" alt="">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <div class="media-heading">
+                                <div class="author">Дима</div>
+                                <div class="metadata">
+                                    <span class="date">16 ноября 2015, 13:43</span>
+                                </div>
+                            </div>
+                            <div class="media-text text-justify">...</div>
+                            <div class="footer-comment">
+            <span class="vote plus" title="Нравится">
+              <i class="fa fa-thumbs-up"></i>
+            </span>
+                                <span class="rating">+1</span>
+                                <span class="vote minus" title="Не нравится">
+              <i class="fa fa-thumbs-down"></i>
+            </span>
+                                <span class="devide">|</span>
+                                <span class="comment-reply">
+              <a href="#" class="reply">ответить</a>
+            </span>
+                            </div>
+                            <!-- Вложенный медиа-компонент (уровень 2) -->
+                            <div class="media">
+                                <div class="media-left">...</div>
+                                <div class="media-body">
+                                    <div class="media-heading">...</div>
+                                    <div class="media-text text-justify">...</div>
+                                    <div class="footer-comment">...</div>
+                                    <!-- Вложенный медиа-компонент (уровень 3) -->
+                                    <div class="media">
+                                        ...
+                                    </div><!-- Конец вложенного комментария (уровень 3) -->
+                                </div>
+                            </div><!-- Конец вложенного комментария (уровень 2) -->
+                            <!-- Ещё один вложенный медиа-компонент (уровень 2) -->
+                            <div class="media">
+                                ...
+                            </div><!-- Конец ещё одного вложенного комментария (уровень 2) -->
+                        </div>
+                    </li><!-- Конец комментария (уровень 1) -->
+                    <!-- Комментарий (уровень 1) -->
+                    <li class="media">
+                        ...
+                    </li><!-- Конец комментария (уровень 1) -->
+                    <!-- Комментарий (уровень 1) -->
+                    <li class="media">
+                        ...
+                    </li><!-- Конец комментария (уровень 1) -->
+                </ul>
             </div>
         </div>
-    {% endfor %}
+    </div>
 
 
 
 
-{#    <div id="likes"></div>#}
-{#    <p id="dislikes"></p>#}
-{#    <script>#}
-{#        var allamount = {{ article.likes }} + {{ article.dislikes}};#}
-{#        var percentlike = {{ article.likes }} * 100 / allamount;#}
-{#        var percentdislike = {{ article.dislikes }} * 100 / allamount;#}
-{#        document.getElementById("likes").innerHTML = percentlike;#}
-{#        document.getElementById("dislikes").innerHTML = percentdislike;#}
-{#    </script>#}
+
+
+
+
+
+
+    {#    #}
+
+
+
+    {#    <div class="alert alert-primary" role="alert">#}
+    {#        <p class="font-weight-bold"><h3 class="text-center">Комментарии</h3>#}
+    {#    </div>#}
+    {##}
+    {#    <form method="post" action="{% url 'comment_url' article.slug%}">#}
+    {#        {% csrf_token %}#}
+    {#        <div class="form-group">#}
+    {#            <label for="formGroupExampleInput">Добавьте комментарий</label>#}
+    {#            <input type="text" class="form-control" id="formGroupExampleInput" name="commentText" placeholder="Ваш комментарий">#}
+    {#        </div>#}
+    {#        <button type="submit" class="btn btn-success ml-5">Готово</button>#}
+    {#    </form>#}
+    {##}
+    {#    {% for comment in comments %}#}
+    {#        <div class="card border-dark mb-3" style="max-width: 80rem;">#}
+    {#            <div class="card-header">{{ comment.author }}</div>#}
+    {#            <div class="card-body text-dark">#}
+    {#                <p class="card-text">{{ comment.text }}</p>#}
+    {#                <small class="text-muted">{{comment.date}}</small>#}
+    {##}
+    {#            </div>#}
+    {#        </div>#}
+    {#    {% endfor %}#}
+
+
+
+
+    {#    <div id="likes"></div>#}
+    {#    <p id="dislikes"></p>#}
+    {#    <script>#}
+    {#        var allamount = {{ article.likes }} + {{ article.dislikes}};#}
+    {#        var percentlike = {{ article.likes }} * 100 / allamount;#}
+    {#        var percentdislike = {{ article.dislikes }} * 100 / allamount;#}
+    {#        document.getElementById("likes").innerHTML = percentlike;#}
+    {#        document.getElementById("dislikes").innerHTML = percentdislike;#}
+    {#    </script>#}
 {% endblock %}

@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='article',
-            name='data',
+            name='date',
             field=models.DateTimeField(auto_now_add=True),
         ),
         migrations.AlterField(

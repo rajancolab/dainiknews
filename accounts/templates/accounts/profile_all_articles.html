@@ -22,7 +22,7 @@
                 <td><a href="{{ article.get_absolute_url }}" class="text-black">{{article.title|truncatechars:60}}</a></td>
                 <td><span class="badge badge-primary badge-pill">{{vote_num}}</span></td>
                 <td><span class="badge badge-primary badge-pill">{{com_num}}</span></td>
-                <td>{{ article.data }}</td>
+                <td>{{ article.date }}</td>
                 <td>
                     <a class="btn btn-primary" href="{% url 'article_edit_url' article.slug %}" role="button">Edit</a>
                     <a class="btn btn-dark" href="{% url 'article_delete_url' article.slug %}" role="button">Delete</a>

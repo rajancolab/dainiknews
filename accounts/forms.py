@@ -32,6 +32,9 @@ class RegisterForm(forms.Form):
         widget=forms.TextInput(
             attrs={'type': "password", 'name': "password2", 'class': "form-control input-sm", 'placeholder': "Confirm Password"}))
 
+
+
+
     def clean(self):
         cleaned_data = super().clean()
 
@@ -40,11 +43,13 @@ class RegisterForm(forms.Form):
         password1 = cleaned_data.get('password1')
         password2 = cleaned_data.get('password2')
 
+
         if username and email and password1 and password2:
             if User.objects.filter(username=username).exists():
                 raise forms.ValidationError("Username taken")
             if password1 != password2:
                 raise forms.ValidationError("Passwords confirm failed. Try again!")
+
 
 
 class LoginForm(forms.Form):
@@ -100,6 +105,8 @@ class EditForm(forms.Form):
         max_length=255,
         widget=forms.TextInput(
             attrs={'type': "password", 'name': "password2", 'class': "form-control input-sm", 'placeholder': "Confirm Password"}))
+
+
 
     def clean(self):
         cleaned_data = super().clean()

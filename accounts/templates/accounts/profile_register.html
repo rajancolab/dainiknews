@@ -10,7 +10,7 @@
             <div class="col align-self-center">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title text-center mt-5 mb-4">Please sign up for DanikSNews</h3>
+                        <h3 class="panel-title text-center mt-5 mb-4">Sign up</h3>
                     </div>
 
                     <div class="mb-2">
@@ -22,7 +22,7 @@
                     </div>
 
                     <div class="panel-body">
-                        <form action="{% url 'accounts:register_url' %}" method="post">
+                        <form enctype="multipart/form-data" action="{% url 'accounts:register_url' %}" method="post">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6">
@@ -55,6 +55,12 @@
                                         {{ form.password2 }}
                                     </div>
                                 </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="text" style="">Choose your profile photo</label>
+                                <input class="form-control center" name="profile_photo" type="file" >
                             </div>
 
                             <input type="submit" value="Register" class="btn btn-info btn-block">
@@ -75,48 +81,3 @@
         </div>
     </div>
 {% endblock %}
-
-
-
-
-
-
-
-{##}
-{##}
-{##}
-{#    <form class="" action="{% url 'accounts:register_url' %}" method="post">#}
-{#        {% csrf_token %}#}
-{#        <label>#}
-{#            <input type="text" name="first_name" placeholder="First name">#}
-{#        </label><br>#}
-{#        <label>#}
-{#            <input type="text" name="second_name" placeholder="Second name">#}
-{#        </label><br>#}
-{#        <label>#}
-{#            <input type="text" name="username" placeholder="Username">#}
-{#        </label><br>#}
-{#        <label>#}
-{#            <input type="email" name="email" placeholder="Email">#}
-{#        </label><br>#}
-{#        <label>#}
-{#            <input type="password" name="password1" placeholder="Password">#}
-{#        </label><br>#}
-{#        <label>#}
-{#            <input type="password" name="password2" placeholder="Confirm password">#}
-{#        </label><br>#}
-{#        <button type="submit" class="btn btn-primary" name="button">Зарегистрироваться</button>#}
-{#    </form>#}
-{#    <div>#}
-{#        <h3>#}
-{#            {% for message in messages %}#}
-{#                <h3>{{ message }}</h3>#}
-{#            {% endfor %}#}
-{##}
-{##}
-{#        </h3>#}
-{#    </div>#}
-{##}
-{##}
-{##}
-{#{% endblock %}#}

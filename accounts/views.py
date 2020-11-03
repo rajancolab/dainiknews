@@ -1,8 +1,8 @@
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, auth
 
-from article.models import Article
+from article.models import Article, UserProfile
 from accounts.forms import *
 
 def register(request):
@@ -11,12 +11,13 @@ def register(request):
         form = RegisterForm(request.POST)
 
         if form.is_valid():
-            user = User.objects.create_user(username=form.cleaned_data.get('username'),
+            tmp_user = User.objects.create_user(username=form.cleaned_data.get('username'),
                                             password=form.cleaned_data.get('password1'),
                                             email=form.cleaned_data.get('email'),
                                             first_name=form.cleaned_data.get('first_name'),
-                                            last_name=form.cleaned_data.get('last_name')
+                                            last_name=form.cleaned_data.get('last_name'),
                                             )
+            user = UserProfile.objects.create(user=tmp_user, profile_photo=request.FILES['profile_photo'])
             user.save()
             return redirect('accounts:login_url')
     else:
@@ -53,19 +54,20 @@ def logout(request):
 
 
 def profile_detail(request):
+    user_with_photo = get_object_or_404(UserProfile, user=request.user)
     user = request.user
-    articles = Article.objects.filter(author_id=user.id).order_by('-data')[:3]
+
+    articles = Article.objects.filter(author_id=user.id).order_by('-date')[:3]
 
     list_of_data = []
     for article in articles:
         num_votes = 0
-        for choice in article.choice_set.all():
-            num_votes += choice.votes
-        tmp = (article, article.comment_set.count(), num_votes)
+
+        tmp = (article, article.comment_set.count(), 0)
         list_of_data.append(tmp)
 
     context = {
-        'user': user,
+        'user_with_photo': user_with_photo,
         'list_of_data': list_of_data,
     }
 
@@ -74,14 +76,13 @@ def profile_detail(request):
 
 def profile_all_articles(request):
     user = request.user
-    articles = Article.objects.filter(author=user).order_by('-data')
+    articles = Article.objects.filter(author=user).order_by('-date')
 
     list_of_data = []
     for article in articles:
         num_votes = 0
-        for choice in article.choice_set.all():
-            num_votes += choice.votes
-        tmp = (article, article.comment_set.count(), num_votes)
+
+        tmp = (article, article.comment_set.count(), 0)
         list_of_data.append(tmp)
 
     context = {

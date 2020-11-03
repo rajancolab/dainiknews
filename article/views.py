@@ -9,7 +9,7 @@ from .forms import *
 
 def index(request):
 
-    articles = Article.objects.order_by('-data')
+    articles = Article.objects.order_by('-date')
 
     list_of_data = []
     for article in articles:
@@ -71,7 +71,7 @@ def edit_article(request, slug):
         if form.is_valid():
             article.title = form.cleaned_data['title']
             article.text = form.cleaned_data['text']
-            article.data = datetime.now()
+            article.date = datetime.now()
             article.save()
             return redirect('article_detail_url', article.slug)
     else:
