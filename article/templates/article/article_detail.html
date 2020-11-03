@@ -15,44 +15,23 @@
                 {{ article.text|linebreaks }}
             </p>
             <p class="card-text"><small class="text-muted">{{article.author}} {{article.data}}</small></p>
-        </div>
-    </div>
+            <form action="{% url 'article_like_url' article.slug %}" method="post">
+                {% csrf_token %}
+                {{ article.likes }}
+                <input class="btn btn-outline-dark btn-sm" name="like" type="submit" value="Like">
+                <input class="btn btn-outline-secondary btn-sm" name="dislike" type="submit" value="Dislike">
+                {{ article.dislikes }}
+            </form>
 
 
-
-    <div class="alert alert-danger" role="alert">
-        <p class="font-weight-bold"><h3 class="text-center">Голосуй</h3>
-    </div>
-
-
-    <form action="{% url 'vote_url' article.slug %}" method="post">
-        {% csrf_token %}
-
-        {% for choice in choices %}
-
-            <div class="ml-5">
-                <div class="card " style="width: 18rem;">
-                    <ul class="list-group list-group-flush">
-
-                        <div class="form-check">
-                            <label for="exampleRadios1"></label><label for="exampleRadios3"></label><input class="form-check-input" type="radio" name="choiceText" id="exampleRadios3" value="{{choice.text}}" >
-                            {{choice.text}}
-                        </div>
-                    </ul>
-                </div>
+            <div class=" mt-2 progress bg-light progress-bar-striped progress-bar-animated">
+                <div class="progress-bar bg-dark progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ likes_percent }}%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-secondary progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ dislikes_percent }}%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
+        </div>
 
 
-
-        {% endfor %}
-
-        <button type="submit" class="btn btn-success ml-5">Vote</button>
-
-    </form>
-
-
-
-
+    </div>
 
 
     <div class="alert alert-primary" role="alert">
@@ -80,4 +59,15 @@
     {% endfor %}
 
 
+
+
+{#    <div id="likes"></div>#}
+{#    <p id="dislikes"></p>#}
+{#    <script>#}
+{#        var allamount = {{ article.likes }} + {{ article.dislikes}};#}
+{#        var percentlike = {{ article.likes }} * 100 / allamount;#}
+{#        var percentdislike = {{ article.dislikes }} * 100 / allamount;#}
+{#        document.getElementById("likes").innerHTML = percentlike;#}
+{#        document.getElementById("dislikes").innerHTML = percentdislike;#}
+{#    </script>#}
 {% endblock %}

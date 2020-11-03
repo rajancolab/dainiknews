@@ -14,9 +14,9 @@ def index(request):
     list_of_data = []
     for article in articles:
         num_votes = 0
-        for choice in article.choice_set.all():
-            num_votes += choice.votes
-        tmp = (article, article.comment_set.count(), num_votes)
+        # for choice in article.choice_set.all():
+        #     num_votes += choice.votes
+        tmp = (article, article.comment_set.count(), article.likes + article.dislikes)
         list_of_data.append(tmp)
 
     context = {
@@ -28,9 +28,14 @@ def index(request):
 def article_detail(request, slug):
     article = get_object_or_404(Article, slug=slug)
     comments = article.comment_set.all()
-    choices = article.choice_set.all()
+    context = {
+        'article': article,
+        'comments': comments,
+        'likes_percent' : article.likes*100/(article.likes+article.dislikes) if article.likes else 50,
+        'dislikes_percent' : 100-article.likes*100/(article.likes+article.dislikes) if article.dislikes else 50,
+    }
 
-    return render(request, 'article/article_detail.html', {'article': article, 'comments': comments, 'choices': choices})
+    return render(request, 'article/article_detail.html', context)
 
 
 def create_article(request):
@@ -39,12 +44,15 @@ def create_article(request):
         form = CreateArticleForm(request.POST)
 
         if form.is_valid():
-            article = Article.objects.create(title=request.POST['title'], text=request.POST['text'], author=request.user)
+            article = Article.objects.create(
+                title=request.POST['title'],
+                text=request.POST['text'],
+                author=request.user)
             article.save()
             return redirect('article_detail_url', article.slug)
 
     else:
-        form  = CreateArticleForm()
+        form = CreateArticleForm()
 
     context = {'form': form}
 
@@ -66,9 +74,8 @@ def edit_article(request, slug):
             article.data = datetime.now()
             article.save()
             return redirect('article_detail_url', article.slug)
-
     else:
-        form  = EditArticleForm({'title': article.title, 'text': article.text})
+        form = EditArticleForm({'title': article.title, 'text': article.text})
 
     context = {'form': form,
                'slug': slug}
@@ -90,19 +97,23 @@ def delete_article(request, slug):
     return render(request, 'article/article_delete.html', context)
 
 
-def vote(request, slug):
+def like_dislike_article(request, slug):
     article = get_object_or_404(Article, slug=slug)
-    choice_text = request.POST['choiceText']
-    choice = article.choice_set.get(text=choice_text)
-    choice.votes += 1
-    choice.save()
-    return redirect('article_detail_url', slug)
+    print('hereee')
+    if 'like' in request.POST:
+        article.likes += 1
+        article.save()
+        return redirect('article_detail_url', slug)
+    elif 'dislike' in request.POST:
+        article.dislikes += 1
+        article.save()
+        return redirect('article_detail_url', slug)
 
 
 def comment(request, slug):
 
     article = get_object_or_404(Article, slug=slug)
     comment_text = request.POST['commentText']
-    comment = Comment.objects.create(article=article, text=comment_text, author=request.user)
-    comment.save()
+    new_comment = Comment.objects.create(article=article, text=comment_text, author=request.user)
+    new_comment.save()
     return redirect('article_detail_url', slug)

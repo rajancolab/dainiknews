@@ -5,19 +5,10 @@ from django.shortcuts import reverse
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 
+
 def gen_slug(s):
     new_slug = slugify(s, allow_unicode=True)
     return new_slug + '-' + str(int(time()))
-
-#
-# class User(models.Model):
-#
-#     username = models.CharField(max_length=255)
-#     name = models.CharField(max_length=255)
-#     surname = models.CharField(max_length=255)
-#
-#     def __str__(self):
-#         return self.username
 
 
 class Article(models.Model):
@@ -26,7 +17,8 @@ class Article(models.Model):
     author = models.ForeignKey(User, max_length=255, verbose_name='Автор', on_delete=models.CASCADE)
     data = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=255, blank=True)
-
+    likes = models.IntegerField(default=0)
+    dislikes = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -38,19 +30,6 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
-
-
-
-
-
-class Choice(models.Model):
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    text = models.TextField(max_length=500, verbose_name='Содержание')
-    votes = models.IntegerField(default=0)
-
-
-    def __str__(self):
-        return self.text
 
 
 class Comment(models.Model):
