@@ -1,5 +1,5 @@
 from django.http import Http404
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import PermissionDenied
 from django.utils.datetime_safe import datetime
 
@@ -26,10 +26,7 @@ def index(request):
 
 
 def article_detail(request, slug):
-    try:
-        article = Article.objects.get(slug=slug)
-    except:
-        raise Http404("Article not found!")
+    article = get_object_or_404(Article, slug=slug)
     comments = article.comment_set.all()
     choices = article.choice_set.all()
 
@@ -55,11 +52,7 @@ def create_article(request):
 
 
 def edit_article(request, slug):
-
-    try:
-        article = Article.objects.get(slug=slug)
-    except:
-        raise Http404("Article not found!")
+    article = get_object_or_404(Article, slug=slug)
 
     if article.author != request.user:
         raise PermissionDenied
@@ -83,25 +76,33 @@ def edit_article(request, slug):
     return render(request, 'article/article_edit.html', context)
 
 
-def vote(request, slug):
-    try:
-        article = Article.objects.get(slug=slug)
-        choice_text = request.POST['choiceText']
-        choice = article.choice_set.get(text=choice_text)
-        choice.votes += 1
-        choice.save()
-        return redirect('article_detail_url', slug)
-    except:
-        raise Http404("Article not found!")
+def delete_article(request, slug):
+    article = get_object_or_404(Article, slug=slug)
 
+    if request.method == "POST":
+        article.delete()
+        return redirect('accounts:profile_detail')
+
+    context = {
+        'slug': slug,
+        'article': article
+    }
+    return render(request, 'article/article_delete.html', context)
+
+
+def vote(request, slug):
+    article = get_object_or_404(Article, slug=slug)
+    choice_text = request.POST['choiceText']
+    choice = article.choice_set.get(text=choice_text)
+    choice.votes += 1
+    choice.save()
+    return redirect('article_detail_url', slug)
 
 
 def comment(request, slug):
-    try:
-        article = Article.objects.get(slug=slug)
-        comment_text = request.POST['commentText']
-    except:
-        raise Http404("Article not found!")
+
+    article = get_object_or_404(Article, slug=slug)
+    comment_text = request.POST['commentText']
     comment = Comment.objects.create(article=article, text=comment_text, author=request.user)
     comment.save()
     return redirect('article_detail_url', slug)

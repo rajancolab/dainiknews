@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3>
+        <div class="text-center mt-5">
+            Are you sure you want to delete the <a href="{{ article.get_absolute_url }}">{{ article.title }}</a> article?
+        </div>
+    </h3>
+    <div class="text-center mt-4">
+        <form action="{% url 'article_delete_url' slug %}" method="post">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-dark px-4" value="Yes, delete the article">
+        </form>
+        <div class="text-center mt-1">
+            <a class="btn btn-outline-dark" href="{% url 'accounts:profile_all_articles' %}" role="button">No, don't want to delete</a>
+        </div>
+    </div>
+
+{% endblock %}
