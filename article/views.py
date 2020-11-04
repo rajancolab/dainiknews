@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
@@ -43,15 +44,22 @@ def article_detail(request, slug):
 def create_article(request):
 
     if request.method == "POST":
-        form = CreateArticleForm(request.POST)
-
+        form = CreateArticleForm(request.POST, request.FILES)
+        print(form.is_valid())
         if form.is_valid():
             article = Article.objects.create(
                 title=request.POST['title'],
                 text=request.POST['text'],
-                author=request.user)
+                author=request.user,
+                image=request.FILES['image']
+            )
             article.save()
             return redirect('article_detail_url', article.slug)
+
+        else:
+            messages.error(request, ('Please correct the error below.'))
+
+
 
     else:
         form = CreateArticleForm()
@@ -64,21 +72,24 @@ def create_article(request):
 @login_required
 def edit_article(request, slug):
     article = get_object_or_404(Article, slug=slug)
+    print(article)
 
     if article.author != request.user:
         raise PermissionDenied
 
     if request.method == "POST":
-        form = EditArticleForm(request.POST)
+        form = EditArticleForm(request.POST, request.FILES)
 
         if form.is_valid():
             article.title = form.cleaned_data['title']
             article.text = form.cleaned_data['text']
             article.date = datetime.now()
+            article.image = request.FILES['image']
             article.save()
+            messages.success(request, ('Your article was successfully updated!'))
             return redirect('article_detail_url', article.slug)
     else:
-        form = EditArticleForm({'title': article.title, 'text': article.text})
+        form = EditArticleForm({'title': article.title, 'text': article.text, 'image': article.image})
 
     context = {'form': form,
                'slug': slug}

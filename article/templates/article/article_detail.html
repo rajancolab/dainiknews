@@ -1,12 +1,21 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-
+    {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
     <div class="jumbotron jumbotron-fluid">
 
+
         <div class="container">
-            <img src="..." class="img-fluid" alt="Responsive image">
             <h1 class="display-4">{{ article.title }}</h1>
+            <div class="text mt-4">
+                <div class="<row-md-3"><img src="/media/{{ article.image }}" class="img-responsive rounded" height="300"
+                                            alt="Responsive image"></div>
+            </div>
+
             <p class="lead" style="white-space:pre-line">
                 {{ article.text|linebreaks }}
             </p>
@@ -27,9 +36,9 @@
             </div>
 
 
-            <div class=" mt-4 progress bg-light progress-bar-striped ">
-                <div class="progress-bar bg-dark " role="progressbar" style="width: {{ likes_percent }}%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-                <div class="progress-bar bg-secondary " role="progressbar" style="width: {{ dislikes_percent }}%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class=" mt-4 progress bg-light progress-bar-striped">
+                <div class="progress-bar bg-dark progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ likes_percent }}%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-secondary progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ dislikes_percent }}%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
         </div>
 
@@ -59,15 +68,19 @@
                         <div class="row no-gutters">
                             <div class="col-md-1">
                                 <div class="">
-                                    <img src="/media/{{comment.author.profile.photo}}" class="img-fluid" width="600" height="800" alt="...">
+                                    <img src="/media/{{comment.author.profile.photo}}" class=" mt-2 ml-2 img-fluid rounded-circle" width="600" height="800" alt="...">
                                 </div>
 
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-{#                                    <h5 class="card-title">Card title</h5>#}
+                                    {#                                    <h5 class="card-title">Card title</h5>#}
                                     <p class="card-text">{{ comment.text }}</p>
-                                    <p class="card-text"><small class="text-muted">{{comment.date}}</small></p>
+                                    <p class="card-text">
+                                        <small class="text-muted">Author:</small>
+                                        {{ comment.author.username }}
+                                        <small class="text-muted text-right"> Publication date: {{ comment.date }}</small>
+                                    </p>
                                 </div>
                             </div>
                         </div>

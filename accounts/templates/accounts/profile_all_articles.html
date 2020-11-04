@@ -2,7 +2,11 @@
 
 {% block content %}
 
-
+    {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
     {% if list_of_data %}
         <div class="d-flex align-items-center justify-content-between mb-3 mt-3 ml-3">
             <h4 class="mb-0">All your articles:</h4>

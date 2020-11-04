@@ -1,32 +1,37 @@
 {% extends 'base.html' %}
 
 {% block content %}
-        <table class="table ">
-            <thead class="">
-            <tr class="table-secondary small">
-                <th scope="col">Description</th>
-                <th scope="col">Author</th>
-                <th scope="col">Votes</th>
-                <th scope="col">Comments</th>
-                <th scope="col">Publication date</th>
+    {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <table class="table ">
+        <thead class="">
+        <tr class="table-secondary small">
+            <th scope="col">Description</th>
+            <th scope="col">Author</th>
+            <th scope="col">Votes</th>
+            <th scope="col">Comments</th>
+            <th scope="col">Publication date</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for article, com_num, vote_num in list_of_data %}
+            <tr>
+                <td><a href="{{ article.get_absolute_url }}"
+                       class="font-weight-bold">{{ article.title|truncatechars:60 }}</a></td>
+                <td>{{ article.author }}</td>
+                <td><span class="badge badge-secondary badge-pill">{{ vote_num }}</span></td>
+                <td><span class="badge badge-dark badge-pill">{{ com_num }}</span></td>
+                <td>{{ article.date }}</td>
             </tr>
-            </thead>
-            <tbody>
-            {% for article, com_num, vote_num in list_of_data %}
-                <tr>
-                    <td><a href="{{ article.get_absolute_url }}"
-                           class="font-weight-bold">{{ article.title|truncatechars:60 }}</a></td>
-                    <td>{{ article.author }}</td>
-                    <td><span class="badge badge-secondary badge-pill">{{ vote_num }}</span></td>
-                    <td><span class="badge badge-dark badge-pill">{{ com_num }}</span></td>
-                    <td>{{ article.date }}</td>
-                </tr>
 
 
-            {% endfor %}
+        {% endfor %}
 
 
-            </tbody>
-        </table>
+        </tbody>
+    </table>
 {% endblock %}
 

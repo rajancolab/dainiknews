@@ -2,13 +2,36 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="13679186-4ebf-49bc-b2b7-7a06b0bf775d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/media_cdn/profile_photos/20170803_211121-01.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media_cdn/profile_photos/20180105_175908.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_cdn/article_images/20180105_175908.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_cdn/article_images/20180215_232707.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_cdn/article_images/20180627_231735.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_cdn/article_images/20180627_231735_fFkKJUz.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_cdn/article_images/20180627_231758.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_cdn/article_images/20180627_233741.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_cdn/article_images/20180627_233934.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_cdn/article_images/20180923_1542390.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_cdn/article_images/20190125_184051.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_cdn/article_images/photo_2019-09-07_13-25-10.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_cdn/article_images/photo_2019-09-07_13-25-10_3BE6IsY.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_cdn/article_images/photo_2019-09-07_13-25-10_q77gKvS.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_cdn/profile_photos/20180105_175908_agMxQI5.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_cdn/profile_photos/20180627_231801.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_cdn/profile_photos/20180627_231801_SRkZEDR.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_cdn/profile_photos/20180627_233737.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_cdn/profile_photos/20180627_233739.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_cdn/profile_photos/20180627_233741.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/profile_all_articles.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/profile_all_articles.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/profile_register.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/profile_register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/article/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/article/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/article/templates/article/article_create.html" beforeDir="false" afterPath="$PROJECT_DIR$/article/templates/article/article_create.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/article/templates/article/article_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/article/templates/article/article_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/article/templates/article/article_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/article/templates/article/article_edit.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/article/templates/article/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/article/templates/article/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/article/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/article/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/news/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/news/templates/base.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -154,7 +177,7 @@
       <workItem from="1604348583622" duration="2495000" />
       <workItem from="1604395643729" duration="31413000" />
       <workItem from="1604473227329" duration="1835000" />
-      <workItem from="1604484926917" duration="15073000" />
+      <workItem from="1604484926917" duration="21258000" />
     </task>
     <servers />
   </component>

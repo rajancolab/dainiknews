@@ -14,12 +14,12 @@ def register(request):
     if request.method == "POST":
         user_form = RegisterUserForm(request.POST)
         profile_form = RegisterProfileForm(request.POST, request.FILES)
-
+        print(user_form.is_valid())
         if user_form.is_valid() and profile_form.is_valid():
             user = User.objects.create_user(username=user_form.cleaned_data.get('username'),
                                             first_name=user_form.cleaned_data.get('first_name'),
                                             last_name=user_form.cleaned_data.get('last_name'),
-                                            password=user_form.cleaned_data.get('password'),
+                                            password=user_form.cleaned_data.get('password1'),
                                             email=user_form.cleaned_data.get('email'),
                                             )
             user.profile.photo = profile_form.cleaned_data.get('photo')
