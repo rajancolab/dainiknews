@@ -14,15 +14,15 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
     <a class="navbar-brand" href="{% url 'index' %}">DanikSNews</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" >
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-link active" href="{% url 'index' %}">Главная<span class="sr-only">(current)</span></a>
-            <a class="nav-link active" href="#">Авторы</a>
+            <a class="nav-link active" href="{% url 'index' %}">Main page<span class="sr-only">(current)</span></a>
+            <a class="nav-link active" href="#">Authors</a>
         </div>
 
 
@@ -33,27 +33,26 @@
                         <a class="nav-link disabled" tabindex="-1" aria-disabled="true">Welcome,</a>
                     </li>
 
-                    <li class="nav-item dropdown " >
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ user.username }}
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li class="btn-group " >
+                        <button type="button" class="btn btn-secondary dropdown-toggle mr-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{user.username}}
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{% url 'accounts:profile_detail' %}">Profile</a>
                             <a class="dropdown-item" href="{% url 'accounts:profile_all_articles' %}">My articles</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'create_article' %}">Create article</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'accounts:profile_edit' %}">Edit profile</a>
-                            <a class="dropdown-item" href="{% url 'accounts:logout_url' %}">Log out</a>
+                            <a class="dropdown-item" href="{% url 'accounts:edit_profile' %}">Edit profile</a>
+                            <a class="dropdown-item" href="{% url 'accounts:logout_url' %}">Sign out</a>
                         </div>
                     </li>
 
 
-                    <a class="nav-link active" href="{% url 'accounts:logout_url' %}">Выйти</a>
+                    <a class="btn btn-outline-secondary" href="{% url 'accounts:logout_url' %}">Sign out</a>
                 {% else %}
-                    <a class="nav-link active" href="{% url 'accounts:register_url' %}">Регистрация</a>
-                    <a class="nav-link active" href="{% url 'accounts:login_url' %}">Войти</a>
+                    <a class="btn btn-light mr-3" href="{% url 'accounts:register_url' %}">Sign up</a>
+                    <a class="btn btn-outline-light" href="{% url 'accounts:login_url' %}">Sign in</a>
 
                 {% endif %}
             </ul>
@@ -67,6 +66,29 @@
 {% block content %}
 
 {% endblock %}
+
+{#<div class="text-center mt-5">#}
+{#    <div class="jumbotron jumbotron-fluid bg-dark">#}
+{#        <div class="container">#}
+{##}
+{#            <div class="col">#}
+{#                <div class="text-light text-left">#}
+{#                    © DanikSNews.#}
+{#                </div>#}
+{#                <div class="text-light text-left" >#}
+{#                    All rights reserved#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{##}
+{##}
+{#            <p class="text-light"></p>#}
+{##}
+{##}
+{##}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
 
 </body>
 </html>

@@ -2,39 +2,50 @@
 
 {% block content %}
 
-    <div class="d-flex align-items-center justify-content-between mb-3 mt-3 ml-3">
-        <h4 class="mb-0">All {{ user.username }}'s articles</h4>
-    </div>
 
-    <table class="table">
-        <thead>
-        <tr class="table-secondary small">
-            <th scope="col">Описание</th>
-            <th scope="col">Голоса</th>
-            <th scope="col">Комментарии</th>
-            <th scope="col">Дата</th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for article, com_num, vote_num in list_of_data %}
-            <tr>
-                <td><a href="{{ article.get_absolute_url }}" class="text-black">{{article.title|truncatechars:60}}</a></td>
-                <td><span class="badge badge-primary badge-pill">{{vote_num}}</span></td>
-                <td><span class="badge badge-primary badge-pill">{{com_num}}</span></td>
-                <td>{{ article.date }}</td>
-                <td>
-                    <a class="btn btn-primary" href="{% url 'article_edit_url' article.slug %}" role="button">Edit</a>
-                    <a class="btn btn-dark" href="{% url 'article_delete_url' article.slug %}" role="button">Delete</a>
-                </td>
+    {% if list_of_data %}
+        <div class="d-flex align-items-center justify-content-between mb-3 mt-3 ml-3">
+            <h4 class="mb-0">All your articles:</h4>
+        </div>
+        <table class="table">
+            <thead>
+            <tr class="table-secondary small">
+                <th scope="col">Описание</th>
+                <th scope="col">Голоса</th>
+                <th scope="col">Комментарии</th>
+                <th scope="col">Дата</th>
+                <th scope="col"></th>
             </tr>
+            </thead>
+            <tbody>
+            {% for article, com_num, vote_num in list_of_data %}
+                <tr>
+                    <td><a href="{{ article.get_absolute_url }}" class="text-black">{{article.title|truncatechars:60}}</a></td>
+                    <td><span class="badge badge-primary badge-pill">{{vote_num}}</span></td>
+                    <td><span class="badge badge-primary badge-pill">{{com_num}}</span></td>
+                    <td>{{ article.date }}</td>
+                    <td>
+                        <a class="btn btn-primary" href="{% url 'article_edit_url' article.slug %}" role="button">Edit</a>
+                        <a class="btn btn-dark" href="{% url 'article_delete_url' article.slug %}" role="button">Delete</a>
+                    </td>
+                </tr>
 
 
-        {% endfor %}
+            {% endfor %}
 
 
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    {% else %}
+        <div class="d-flex align-items-center justify-content-between mb-3 mt-4 ml-3">
+            <h4 class="mb-0">You don't have articles yet :(</h4>
+        </div>
+        <div class="d-flex align-items-center justify-content-between mb-3 mt-3 ml-3">
+            <p>Do you want to <a href="{% url 'create_article' %}"> create a new article</a>?</p>
+        </div>
+
+    {% endif %}
+
 {% endblock %}
 

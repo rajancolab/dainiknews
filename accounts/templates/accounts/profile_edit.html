@@ -18,42 +18,44 @@
                     {% endfor %}</div>
 
                     <div class="panel-body">
-                        <form action="{% url 'accounts:profile_edit' %}" method="post">
+                        <form enctype="multipart/form-data" action="{% url 'accounts:edit_profile' %}" method="post">
                             {% csrf_token %}
-                            <div class="row">
-                                <div class="col-xs-6 col-sm-6 col-md-6">
-                                    <div class="form-group">
-                                        {{ form.first_name }}
-                                    </div>
-                                </div>
-                                <div class="col-xs-6 col-sm-6 col-md-6">
-                                    <div class="form-group">
-                                        {{ form.last_name }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                {{ form.username }}
-                            </div>
+                            {{ user_form.as_p }}
+                            {{ profile_form.as_p }}
+{#                            <div class="row">#}
+{#                                <div class="col-xs-6 col-sm-6 col-md-6">#}
+{#                                    <div class="form-group">#}
+{#                                        {{ form.first_name }}#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="col-xs-6 col-sm-6 col-md-6">#}
+{#                                    <div class="form-group">#}
+{#                                        {{ form.last_name }}#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="form-group">#}
+{#                                {{ form.username }}#}
+{#                            </div>#}
+{##}
+{#                            <div class="form-group">#}
+{#                                {{ form.email }}#}
+{#                            </div>#}
+{##}
+{#                            <div class="row">#}
+{#                                <div class="col-xs-6 col-sm-6 col-md-6">#}
+{#                                    <div class="form-group">#}
+{#                                        {{ form.password1 }}#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="col-xs-6 col-sm-6 col-md-6">#}
+{#                                    <div class="form-group">#}
+{#                                        {{ form.password2 }}#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
 
-                            <div class="form-group">
-                                {{ form.email }}
-                            </div>
-
-                            <div class="row">
-                                <div class="col-xs-6 col-sm-6 col-md-6">
-                                    <div class="form-group">
-                                        {{ form.password1 }}
-                                    </div>
-                                </div>
-                                <div class="col-xs-6 col-sm-6 col-md-6">
-                                    <div class="form-group">
-                                        {{ form.password2 }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <input type="submit" value="Confirm" class="btn btn-info btn-block">
+                            <input type="submit" value="Save changes" class="btn btn-info btn-block">
 
                         </form>
 

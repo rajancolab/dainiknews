@@ -11,13 +11,6 @@ def gen_slug(s):
     return new_slug + '-' + str(int(time()))
 
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_photo = models.ImageField(upload_to='profile_photo/')
-
-    def __str__(self):
-        return self.user.username
-
 
 class Article(models.Model):
     title = models.CharField(max_length=255, verbose_name='Название')

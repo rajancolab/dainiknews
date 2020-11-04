@@ -5,12 +5,7 @@
     <div class="jumbotron jumbotron-fluid">
 
         <div class="container">
-            <nav aria-label="breadcrumb" class="">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{article.title|truncatewords:3}}</li>
-                </ol>
-            </nav>
+
             <h1 class="display-4">{{ article.title }}</h1>
             <p class="lead" style="white-space:pre-line">
                 {{ article.text|linebreaks }}
@@ -46,69 +41,25 @@
             <div class="comments">
                 <h3 class="title-comments">Comments ({{ comments.count }})</h3>
 
-                <ul class="media-list">
-                    <!-- Комментарий (уровень 1) -->
-                    <li class="media">
-                        <div class="media-left">
-                            <a href="#">
-                                <img class="media-object img-rounded" src="{% static '' %}" alt="">
-                            </a>
+                {% for comment in comments %}
+                    <div class="card mb-2">
+                        <div class="card-header">
+                            Author: {{comment.author}}
                         </div>
-                        <div class="media-body">
-                            <div class="media-heading">
-                                <div class="author">Дима</div>
-                                <div class="metadata">
-                                    <span class="date">16 ноября 2015, 13:43</span>
-                                </div>
-                            </div>
-                            <div class="media-text text-justify">...</div>
-                            <div class="footer-comment">
-            <span class="vote plus" title="Нравится">
-              <i class="fa fa-thumbs-up"></i>
-            </span>
-                                <span class="rating">+1</span>
-                                <span class="vote minus" title="Не нравится">
-              <i class="fa fa-thumbs-down"></i>
-            </span>
-                                <span class="devide">|</span>
-                                <span class="comment-reply">
-              <a href="#" class="reply">ответить</a>
-            </span>
-                            </div>
-                            <!-- Вложенный медиа-компонент (уровень 2) -->
-                            <div class="media">
-                                <div class="media-left">...</div>
-                                <div class="media-body">
-                                    <div class="media-heading">...</div>
-                                    <div class="media-text text-justify">...</div>
-                                    <div class="footer-comment">...</div>
-                                    <!-- Вложенный медиа-компонент (уровень 3) -->
-                                    <div class="media">
-                                        ...
-                                    </div><!-- Конец вложенного комментария (уровень 3) -->
-                                </div>
-                            </div><!-- Конец вложенного комментария (уровень 2) -->
-                            <!-- Ещё один вложенный медиа-компонент (уровень 2) -->
-                            <div class="media">
-                                ...
-                            </div><!-- Конец ещё одного вложенного комментария (уровень 2) -->
+                        <div class="card-body">
+                            <blockquote class="blockquote mb-0">
+                                <p>{{comment.text}}</p>
+                                <footer class="text-muted small">Published: {{ comment.date }}</footer>
+                            </blockquote>
                         </div>
-                    </li><!-- Конец комментария (уровень 1) -->
-                    <!-- Комментарий (уровень 1) -->
-                    <li class="media">
-                        ...
-                    </li><!-- Конец комментария (уровень 1) -->
-                    <!-- Комментарий (уровень 1) -->
-                    <li class="media">
-                        ...
-                    </li><!-- Конец комментария (уровень 1) -->
-                </ul>
+                    </div>
+                {% endfor %}
+
+
+
             </div>
         </div>
     </div>
-
-
-
 
 
 

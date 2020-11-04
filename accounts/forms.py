@@ -1,5 +1,30 @@
 from django import forms
 from django.contrib.auth.models import User, auth
+from .models import Profile
+
+class UpdateUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'username', 'email', 'password', )
+
+
+class UpdateProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('photo','bio')
+
+
+class RegisterUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'username', 'email', 'password', )
+
+
+class RegisterProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('photo','bio')
+
 
 class RegisterForm(forms.Form):
     first_name = forms.CharField(

@@ -9,7 +9,6 @@ urlpatterns = [
     path('logout/', logout, name='logout_url'),
     path('profile/', profile_detail, name='profile_detail'),
     path('profile/articles/', profile_all_articles, name='profile_all_articles'),
-    path('profile/edit/', profile_edit, name='profile_edit'),
-
+    path('profile/edit/', edit_profile, name='edit_profile'),
 
 ]

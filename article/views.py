@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import PermissionDenied
@@ -38,6 +39,7 @@ def article_detail(request, slug):
     return render(request, 'article/article_detail.html', context)
 
 
+@login_required
 def create_article(request):
 
     if request.method == "POST":
@@ -59,6 +61,7 @@ def create_article(request):
     return render(request, 'article/article_create.html', context)
 
 
+@login_required
 def edit_article(request, slug):
     article = get_object_or_404(Article, slug=slug)
 
@@ -83,8 +86,12 @@ def edit_article(request, slug):
     return render(request, 'article/article_edit.html', context)
 
 
+@login_required
 def delete_article(request, slug):
     article = get_object_or_404(Article, slug=slug)
+
+    if article.author != request.user:
+        raise PermissionDenied
 
     if request.method == "POST":
         article.delete()
@@ -97,19 +104,23 @@ def delete_article(request, slug):
     return render(request, 'article/article_delete.html', context)
 
 
+@login_required
 def like_dislike_article(request, slug):
+
     article = get_object_or_404(Article, slug=slug)
-    print('hereee')
+
     if 'like' in request.POST:
         article.likes += 1
         article.save()
         return redirect('article_detail_url', slug)
+
     elif 'dislike' in request.POST:
         article.dislikes += 1
         article.save()
         return redirect('article_detail_url', slug)
 
 
+@login_required
 def comment(request, slug):
 
     article = get_object_or_404(Article, slug=slug)
