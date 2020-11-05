@@ -11,11 +11,12 @@
 
         <div class="container">
             <h1 class="display-4">{{ article.title }}</h1>
-            <div class="text mt-4">
-                <div class="<row-md-3"><img src="/media/{{ article.image }}" class="img-responsive rounded" height="300"
-                                            alt="Responsive image"></div>
-            </div>
-
+            {% if article.image %}
+                <div class="text mt-4">
+                    <div class="<row-md-3"><img src="/media/{{ article.image }}" class="img-responsive rounded" height="300"
+                                                alt="Article image"></div>
+                </div>
+            {% endif %}
             <p class="lead" style="white-space:pre-line">
                 {{ article.text|linebreaks }}
             </p>

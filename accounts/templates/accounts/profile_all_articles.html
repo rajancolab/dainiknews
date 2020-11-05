@@ -7,7 +7,7 @@
             {{ message }}
         </div>
     {% endfor %}
-    {% if list_of_data %}
+    {% if page_object.object_list %}
         <div class="d-flex align-items-center justify-content-between mb-3 mt-3 ml-3">
             <h4 class="mb-0">All your articles:</h4>
         </div>
@@ -22,7 +22,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for article, com_num, vote_num in list_of_data %}
+            {% for article, com_num, vote_num in page_object.object_list %}
                 <tr>
                     <td><a href="{{ article.get_absolute_url }}" class="text-black">{{article.title|truncatechars:60}}</a></td>
                     <td><span class="badge badge-primary badge-pill">{{vote_num}}</span></td>
@@ -41,12 +41,40 @@
 
             </tbody>
         </table>
+        {% if is_paginated %}
+            <nav aria-label="...">
+                <ul class="pagination justify-content-center ">
+                    <li class="page-item {% if not prev_url %} disabled {%endif%}">
+
+                        <a class="page-link" href="{{ prev_url }}" tabindex="-1" aria-disabled="true">Previous</a>
+                    </li>
+
+                    {% for n in page_object.paginator.page_range %}
+                        {% if page_object.number == n %}
+                            <li class="page-item active" aria-current="page">
+                                <a class="page-link" href="?page={{ n }}">{{ n }} <span class="sr-only">(current)</span></a>
+                            </li>
+                        {% elif n > page_object.number|add:-3 and n < page_object.number|add:3 %}
+
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ n }}">{{ n }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor%}
+
+
+                    <li class="page-item {% if not next_url %} disabled {%endif%} ">
+                        <a class="page-link" href="{{next_url}}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        {% endif %}
     {% else %}
         <div class="d-flex align-items-center justify-content-between mb-3 mt-4 ml-3">
             <h4 class="mb-0">You don't have articles yet :(</h4>
         </div>
         <div class="d-flex align-items-center justify-content-between mb-3 mt-3 ml-3">
-            <p>Do you want to <a href="{% url 'create_article' %}"> create a new article</a>?</p>
+            <p>Do you want to <a href="{% url 'create_article' %}"> create an article</a>?</p>
         </div>
 
     {% endif %}

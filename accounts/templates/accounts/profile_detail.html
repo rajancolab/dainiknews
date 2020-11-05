@@ -15,7 +15,7 @@
                     <div class="profile mr-3">
                         <img src="/media/{{ user.profile.photo }}" alt="..." width="250" class="rounded mb-2 img-thumbnail">
                         <a href="{% url 'accounts:edit_profile' %}" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
-                        <a href="{% url 'create_article' %}" class="btn btn-outline-dark btn-sm btn-block">Create article</a>
+                        <a href="{% url 'accounts:change_password_profile' %}" class="btn btn-outline-dark btn-sm btn-block">Change password</a>
                     </div>
                     <div class="media-body mb-5 text-black">
 
@@ -65,6 +65,11 @@
 
                         </tbody>
                     </table>
+                {% else %}
+
+                    <div class="d-flex align-items-center justify-content-between mb-3 mt-3 ml-3">
+                        <p>Do you want to <a href="{% url 'create_article' %}"> create an article</a>?</p>
+                    </div>
                 {% endif %}
 
 

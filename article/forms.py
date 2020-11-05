@@ -12,7 +12,7 @@ class CreateArticleForm(forms.ModelForm):
             max_length=5000,
             widget=forms.Textarea(attrs={'class': 'input form-control', 'placeholder':"Write article's content here"}))
 
-    image = forms.ImageField()
+    image = forms.ImageField(required=False)
     class Meta:
         model = Article
         fields = ('title', 'image', 'text',)

@@ -11,53 +11,68 @@
                         <h3 class="panel-title text-center mt-5 mb-4">Edit your profile</h3>
                     </div>
 
-                    <div class="mb-2">{% for error in form.non_field_errors %}
-                        <small class="text-danger ml-3">
-                            {{ error }}
-                        </small>
-                    {% endfor %}</div>
+
 
                     <div class="panel-body">
                         <form enctype="multipart/form-data" action="{% url 'accounts:edit_profile' %}" method="post">
                             {% csrf_token %}
                             {{ user_form.as_p }}
                             {{ profile_form.as_p }}
+{#                            <div class="mb-2">#}
+{#                                {% for error in user_form.non_field_errors %}#}
+{#                                    <small class="text-danger ml-3">#}
+{#                                        {{ error }}#}
+{#                                    </small>#}
+{#                                {% endfor %}#}
+{#                            </div>#}
+                            {#                            {{ user_form.as_p }}#}
 {#                            <div class="row">#}
 {#                                <div class="col-xs-6 col-sm-6 col-md-6">#}
 {#                                    <div class="form-group">#}
-{#                                        {{ form.first_name }}#}
+{#                                        {{ user_form.first_name }}#}
 {#                                    </div>#}
 {#                                </div>#}
 {#                                <div class="col-xs-6 col-sm-6 col-md-6">#}
 {#                                    <div class="form-group">#}
-{#                                        {{ form.last_name }}#}
+{#                                        {{ user_form.last_name }}#}
 {#                                    </div>#}
 {#                                </div>#}
 {#                            </div>#}
 {#                            <div class="form-group">#}
-{#                                {{ form.username }}#}
+{#                                {{ user_form.username }}#}
 {#                            </div>#}
 {##}
 {#                            <div class="form-group">#}
-{#                                {{ form.email }}#}
+{#                                {{ user_form.email }}#}
 {#                            </div>#}
 {##}
+{##}
 {#                            <div class="row">#}
-{#                                <div class="col-xs-6 col-sm-6 col-md-6">#}
+{#                                <div class="col-xs-4 col-sm-4 col-md-4">#}
 {#                                    <div class="form-group">#}
-{#                                        {{ form.password1 }}#}
+{#                                        {{ user_form.password0 }}#}
 {#                                    </div>#}
 {#                                </div>#}
-{#                                <div class="col-xs-6 col-sm-6 col-md-6">#}
+{#                                <div class="col-xs-4 col-sm-4 col-md-4">#}
 {#                                    <div class="form-group">#}
-{#                                        {{ form.password2 }}#}
+{#                                        {{ user_form.password1 }}#}
 {#                                    </div>#}
 {#                                </div>#}
+{#                                <div class="col-xs-4 col-sm-4 col-md-4">#}
+{#                                    <div class="form-group">#}
+{#                                        {{ user_form.password2 }}#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{##}
+{#                            <div class="form-group text-center">#}
+{#                                {{ profile_form.photo }}#}
 {#                            </div>#}
 
                             <input type="submit" value="Save changes" class="btn btn-info btn-block">
 
                         </form>
+                        <p class="text-center">Want to <a href="{% url 'accounts:change_password_profile' %}">change your password</a>?</p>
 
 
                     </div>

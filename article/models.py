@@ -20,7 +20,7 @@ class Article(models.Model):
     slug = models.SlugField(max_length=255, blank=True)
     likes = models.IntegerField(default=0)
     dislikes = models.IntegerField(default=0)
-    image = models.ImageField(upload_to='article_images')
+    image = models.ImageField(upload_to='article_images', blank=True)
 
     def save(self, *args, **kwargs):
         if not self.id:

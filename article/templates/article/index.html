@@ -17,7 +17,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for article, com_num, vote_num in list_of_data %}
+        {% for article, com_num, vote_num in page_object.object_list %}
             <tr>
                 <td><a href="{{ article.get_absolute_url }}"
                        class="font-weight-bold">{{ article.title|truncatechars:60 }}</a></td>
@@ -33,5 +33,33 @@
 
         </tbody>
     </table>
+    {% if is_paginated %}
+        <nav aria-label="...">
+            <ul class="pagination justify-content-center ">
+                <li class="page-item {% if not prev_url %} disabled {%endif%}">
+
+                    <a class="page-link" href="{{ prev_url }}" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+
+                {% for n in page_object.paginator.page_range %}
+                    {% if page_object.number == n %}
+                        <li class="page-item active" aria-current="page">
+                            <a class="page-link" href="?page={{ n }}">{{ n }} <span class="sr-only">(current)</span></a>
+                        </li>
+                    {% elif n > page_object.number|add:-3 and n < page_object.number|add:3 %}
+
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ n }}">{{ n }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor%}
+
+
+                <li class="page-item {% if not next_url %} disabled {%endif%} ">
+                    <a class="page-link" href="{{next_url}}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    {% endif %}
 {% endblock %}
 

@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import PermissionDenied
@@ -13,16 +14,37 @@ def index(request):
 
     articles = Article.objects.order_by('-date')
 
+
+
     list_of_data = []
     for article in articles:
-        num_votes = 0
-        # for choice in article.choice_set.all():
-        #     num_votes += choice.votes
         tmp = (article, article.comment_set.count(), article.likes + article.dislikes)
         list_of_data.append(tmp)
 
+    paginator = Paginator(list_of_data, 11)
+
+    page_number = request.GET.get('page', 1)
+    page = paginator.get_page(page_number)
+
+    is_paginated = page.has_other_pages()
+
+    if page.has_previous():
+        prev_url = '?page={}'.format(page.previous_page_number())
+    else:
+        prev_url = ''
+
+    if page.has_next():
+        next_url = '?page={}'.format(page.next_page_number())
+    else:
+        next_url = ''
+
+
     context = {
-        'list_of_data': list_of_data,
+        # 'list_of_data': list_of_data,
+        'page_object': page,
+        'is_paginated': is_paginated,
+        'next_url': next_url,
+        'prev_url': prev_url
     }
     return render(request, 'article/index.html', context=context)
 
@@ -51,7 +73,7 @@ def create_article(request):
                 title=request.POST['title'],
                 text=request.POST['text'],
                 author=request.user,
-                image=request.FILES['image']
+                image=request.FILES['image'] if request.FILES else ''
             )
             article.save()
             return redirect('article_detail_url', article.slug)
