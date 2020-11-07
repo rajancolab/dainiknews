@@ -21,7 +21,7 @@ def index(request):
         tmp = (article, article.comment_set.count(), article.likes + article.dislikes)
         list_of_data.append(tmp)
 
-    paginator = Paginator(list_of_data, 11)
+    paginator = Paginator(list_of_data, 13)
 
     page_number = request.GET.get('page', 1)
     page = paginator.get_page(page_number)
