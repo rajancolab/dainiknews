@@ -21,7 +21,7 @@
                         <form enctype="multipart/form-data" action="{% url 'accounts:edit_profile' %}" method="post">
                             {% csrf_token %}
                             {{ user_form.as_p }}
-                            {{ profile_form.as_p }}
+{#                            {{ profile_form.as_p }}#}
 
                             <input type="submit" value="Save changes" class="btn btn-info btn-block">
 
