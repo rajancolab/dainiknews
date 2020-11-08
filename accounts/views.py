@@ -75,9 +75,7 @@ def profile_detail(request):
 
     list_of_data = []
     for article in articles:
-        num_votes = 0
-
-        tmp = (article, article.comment_set.count(), 0)
+        tmp = (article, article.comment_set.count(), article.likes + article.dislikes)
         list_of_data.append(tmp)
 
     context = {
@@ -141,10 +139,6 @@ def edit_profile(request):
 
         if user_form.is_valid() and profile_form.is_valid():
 
-            # if not request.user.check_password(user_form.cleaned_data.get('password0')):
-            #     raise forms.ValidationError('Previous password is not correct')
-
-            # request.user.set_password(user_form.cleaned_data.get('password'))
             password_for_login = request.user.password
             user_form.save()
             profile_form.save()
@@ -160,7 +154,6 @@ def edit_profile(request):
 
         else:
             pass
-            # messages.error(request, ('Please correct the error below.'))
     else:
         user_form = UpdateUserForm(instance=request.user)
         profile_form = UpdateProfileForm(instance=request.user.profile)
@@ -195,7 +188,6 @@ def change_password_profile(request):
 
         else:
             pass
-            # messages.error(request, ('Please correct the error below.'))
     else:
         password_form = ChangePasswordUserForm(instance=request.user)
 
