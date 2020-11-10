@@ -1,20 +1,16 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import PermissionDenied
 from django.utils.datetime_safe import datetime
 
-from .models import Article, Comment
+from .models import Comment
 from .forms import *
 
 
 def index(request):
-
     articles = Article.objects.order_by('-date')
-
-
 
     list_of_data = []
     for article in articles:
@@ -38,9 +34,7 @@ def index(request):
     else:
         next_url = ''
 
-
     context = {
-        # 'list_of_data': list_of_data,
         'page_object': page,
         'is_paginated': is_paginated,
         'next_url': next_url,
@@ -55,8 +49,8 @@ def article_detail(request, slug):
     context = {
         'article': article,
         'comments': comments,
-        'likes_percent' : article.likes*100/(article.likes+article.dislikes) if article.likes else 50,
-        'dislikes_percent' : 100-article.likes*100/(article.likes+article.dislikes) if article.dislikes else 50,
+        'likes_percent': article.likes * 100 / (article.likes + article.dislikes) if article.likes else 50,
+        'dislikes_percent': 100 - article.likes * 100 / (article.likes + article.dislikes) if article.dislikes else 50,
     }
 
     return render(request, 'article/article_detail.html', context)
@@ -64,10 +58,9 @@ def article_detail(request, slug):
 
 @login_required
 def create_article(request):
-
     if request.method == "POST":
-        form = CreateArticleForm(request.POST, request.FILES)
-        print(form.is_valid())
+        form = ArticleForm(request.POST, request.FILES)
+
         if form.is_valid():
             article = Article.objects.create(
                 title=request.POST['title'],
@@ -79,12 +72,10 @@ def create_article(request):
             return redirect('article_detail_url', article.slug)
 
         else:
-            messages.error(request, ('Please correct the error below.'))
-
-
+            messages.error(request, 'Please correct the error below.')
 
     else:
-        form = CreateArticleForm()
+        form = ArticleForm()
 
     context = {'form': form}
 
@@ -94,24 +85,24 @@ def create_article(request):
 @login_required
 def edit_article(request, slug):
     article = get_object_or_404(Article, slug=slug)
-    print(article)
 
     if article.author != request.user:
         raise PermissionDenied
 
     if request.method == "POST":
-        form = EditArticleForm(request.POST, request.FILES)
+        form = ArticleForm(request.POST, request.FILES)
 
         if form.is_valid():
             article.title = form.cleaned_data['title']
             article.text = form.cleaned_data['text']
             article.date = datetime.now()
-            article.image = request.FILES['image']
+            article.image = request.FILES['image'] if request.FILES else ''
             article.save()
-            messages.success(request, ('Your article was successfully updated!'))
+            messages.success(request, 'Your article was successfully updated!')
             return redirect('article_detail_url', article.slug)
+
     else:
-        form = EditArticleForm({'title': article.title, 'text': article.text, 'image': article.image})
+        form = ArticleForm({'title': article.title, 'text': article.text, 'image': article.image})
 
     context = {'form': form,
                'slug': slug}
@@ -128,7 +119,7 @@ def delete_article(request, slug):
 
     if request.method == "POST":
         article.delete()
-        return redirect('accounts:profile_detail')
+        return redirect('accounts:profile_all_articles')
 
     context = {
         'slug': slug,
@@ -139,7 +130,6 @@ def delete_article(request, slug):
 
 @login_required
 def like_dislike_article(request, slug):
-
     article = get_object_or_404(Article, slug=slug)
 
     if 'like' in request.POST:
@@ -155,7 +145,6 @@ def like_dislike_article(request, slug):
 
 @login_required
 def comment(request, slug):
-
     article = get_object_or_404(Article, slug=slug)
     comment_text = request.POST['commentText']
     new_comment = Comment.objects.create(article=article, text=comment_text, author=request.user)

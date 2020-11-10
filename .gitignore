@@ -1,6 +1,4 @@
 static_cdn
-media_cdn
-media
 news/__pycache__
 accounts/__pycache__
 accounts/migrations/__pycache__
@@ -9,7 +7,7 @@ article/migrations/__pycache__
 
 # Text backup files
 *.bak
-
+staticfiles
 #Database
 *.sqlite3
 .idea

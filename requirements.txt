@@ -7,3 +7,5 @@ pytz==2020.4
 sqlparse==0.4.1
 psycopg2==2.7.5
 whitenoise==5.2.0
+cloudinary==1.22.0
+django-cloudinary-storage==0.2.3
