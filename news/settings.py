@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '&9wnvnt1^*n@=_qpt-u^jc3ll_3!fv
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['agile-wave-33847.herokuapp.com', '127.0.0.1']
 
